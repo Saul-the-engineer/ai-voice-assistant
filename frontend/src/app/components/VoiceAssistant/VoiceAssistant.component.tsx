@@ -14,7 +14,7 @@ const VoiceAssistant = ()=>{
         <div className={styles["voice-assistant-component"]}>
             <VoiceAssistantAvatar/>
             <VoiceRecorder onAudioRecordingComplete={handleUserVoiceRecorded}/>
-            {isWaitingAIOutput &&  
+            {isWaitingAIOutput &&
                 (<ReactLoading type={"bars"} color={"#4287f5"} width={200} />)
             }
 

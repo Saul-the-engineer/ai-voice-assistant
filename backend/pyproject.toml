@@ -1,0 +1,39 @@
+[build-system]
+# Minimum requirements for the build system to execute.
+requires = ["setuptools>=61.0.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.package-data]
+backend = ["*.json"]
+
+[project]
+name = "test"
+authors = [{ name = "Saul Ramirez", email = "some-email@gmail.com" }]
+description = "My package description"
+readme = "README.md"
+requires-python = ">=3.7"
+keywords = ["one", "two"]
+license = { text = "MIT" }
+classifiers = ["Programming Language :: Python :: 3"]
+dependencies = [
+    'importlib-metadata; python_version<"3.8"', 
+    "numpy", 
+    "torch", 
+    "transformers",
+    "xformer",
+    "accelerate >= 0.26.0",
+    "langchain",
+    "langchain-huggingface",
+    "uvicorn", 
+    "fastapi",
+    "pydantic",
+    "python-dotenv",
+    ]
+dynamic = ["version"]
+
+[project.optional-dependencies]
+test = ["pytest", "pytest-cov"]
+release = ["build", "twine"]
+static-code-qa = ["pre-commit"]
+dev = ["test[test,release,static-code-qa]"]
+

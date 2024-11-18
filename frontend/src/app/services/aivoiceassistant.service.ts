@@ -5,7 +5,7 @@ export const getAIReplyOutput = async (userAudioData: Blob) => {
     });
     const formData = new FormData();
     formData.append("file", audioFile);
-  
+
     const requestOptions = {
       method: "POST",
       body: formData,
@@ -15,10 +15,9 @@ export const getAIReplyOutput = async (userAudioData: Blob) => {
         "http://localhost:8000/voice-assistant/audio-message",
         requestOptions
       );
-  
+
       return await result.blob();
     } catch (error) {
       console.error("Error handling user voice data >> ", error);
     }
   };
-  

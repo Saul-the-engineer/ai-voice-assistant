@@ -1,0 +1,12 @@
+services:
+  fastapi:
+    image: sentiment-analysis-fastapi
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8000:8000"
+    environment:
+      PYTHONPATH: /app/src
+    volumes:
+      - .:/app

@@ -10,7 +10,7 @@ curl https://raw.githubusercontent.com/creationix/nvm/master/install.sh | bash
 ```bash
 npm install --global yarn
 ```
-3) react-audio-voice-recorder 
+3) react-audio-voice-recorder
 ```bash
 npm install react-audio-voice-recorder
 ```

@@ -1,0 +1,27 @@
+# Ignore all files in the venv directory
+venv/
+
+# Ignore logs and compliation files
+*.log
+__pycache__/
+*.pyc
+
+# Ignore configuration files
+docs/
+notebooks/
+tests/
+*.md
+
+# Files not needed in production
+*.yml
+*.env
+docker-compose.yml
+.git/
+.github/
+.gitignore
+.vscode/
+
+# Ignore caches
+.mypy_cache/
+.pytest_cache/
+.ruff_cache/
