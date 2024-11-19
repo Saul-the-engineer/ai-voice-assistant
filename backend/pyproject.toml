@@ -22,8 +22,6 @@ dependencies = [
     "transformers",
     "xformer",
     "accelerate >= 0.26.0",
-    "langchain",
-    "langchain-huggingface",
     "uvicorn", 
     "fastapi",
     "pydantic",
