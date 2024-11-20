@@ -22,6 +22,8 @@ dependencies = [
     "transformers",
     "xformer",
     "accelerate >= 0.26.0",
+    "openai-whisper",
+    "gTTS", # Google Text-to-Speech
     "uvicorn", 
     "fastapi",
     "pydantic",
