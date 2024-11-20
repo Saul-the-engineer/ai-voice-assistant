@@ -1,10 +1,12 @@
 import logging
 import os
 
+from app.routers import (
+    audio_routes,
+    text_routes,
+)
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-
-from app.routers import chat_routes
 
 # Centralized logging configuration
 log_level = logging.DEBUG if os.getenv("ENV") == "development" else logging.INFO
@@ -23,6 +25,7 @@ def create_app() -> FastAPI:
     origins = [
         "http://localhost",
         "http://localhost:3000",
+        "http://localhost:8000",
     ]
 
     # CORS middleware to protect the API from Cross-Origin Resource Sharing (CORS) attacks
@@ -41,13 +44,17 @@ def create_app() -> FastAPI:
         return {"status": "running", "version": "1.0.0", "uptime": "API is up and running smoothly."}
 
     # Include the router
-    app.include_router(chat_routes.router)
+    app.include_router(text_routes.router)
+    app.include_router(audio_routes.router)
 
     return app
 
 
 if __name__ == "__main__":
     import uvicorn
+
+    app = create_app()  # Create a FastAPI instance using the factory function
+    uvicorn.run(app, host="0.0.0.0", port=8000)
 
     app = create_app()  # Create a FastAPI instance using the factory function
     uvicorn.run(app, host="0.0.0.0", port=8000)
