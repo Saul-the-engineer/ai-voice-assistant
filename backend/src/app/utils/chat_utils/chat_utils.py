@@ -1,27 +1,11 @@
 """Chat utils module containing the chatbot class and model pipeline."""
 
-import os
-
 from app.schemas.chat_schemas import TextInput
-from dotenv import load_dotenv
-from huggingface_hub import login
 from transformers import pipeline
 
 
 # Set up the model
 def get_pipeline() -> pipeline:
-    # Check if the environment variables are loaded
-    if not os.getenv("HUGGINGFACE_TOKEN"):
-        print("Environment variables not loaded. Loading from .env file...")
-        load_dotenv()
-
-    # Authenticate with Hugging Face Hub
-    huggingface_token = os.getenv("HUGGINGFACE_TOKEN")
-    if not huggingface_token:
-        raise ValueError("HUGGINGFACE_TOKEN is not set in the environment variables or .env file.")
-
-    login(token=huggingface_token)
-
     # Load the model pipeline
     model_id = "meta-llama/Llama-3.2-1B-Instruct"
     return pipeline(

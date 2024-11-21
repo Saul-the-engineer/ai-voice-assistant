@@ -24,6 +24,7 @@ dependencies = [
     "accelerate >= 0.26.0",
     "openai-whisper",
     "gTTS", # Google Text-to-Speech
+    "python-multipart", # for file uploads
     "uvicorn", 
     "fastapi",
     "pydantic",

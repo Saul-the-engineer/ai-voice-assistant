@@ -12,7 +12,7 @@ export const getAIReplyOutput = async (userAudioData: Blob) => {
     };
     try {
       const result = await fetch(
-        "http://localhost:8000/voice-assistant/audio-message",
+        "http://localhost:8000/voice-assistant/audio_interact",
         requestOptions
       );
 

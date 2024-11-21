@@ -15,7 +15,7 @@ from fastapi import (
 from fastapi.responses import JSONResponse
 
 # Set up the router
-router = APIRouter()
+router = APIRouter(prefix="/voice-assistant")
 
 # Set up logging
 LOGGER = logging.getLogger("ChatService.completions")
@@ -34,7 +34,7 @@ LOGGER.info("Chatbot initialized successfully.")
 
 
 @router.post(
-    "/chat/text_interact",
+    "/text_interact",
     response_model=TextOutput,
     responses={
         200: {"description": "Successful response", "model": TextOutput},
