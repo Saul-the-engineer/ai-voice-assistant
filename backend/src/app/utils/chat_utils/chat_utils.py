@@ -1,5 +1,6 @@
 """Chat utils module containing the chatbot class and model pipeline."""
 
+import os
 from typing import Optional
 
 from app.schemas.chat_schemas import TextInput
@@ -11,12 +12,42 @@ def get_pipeline() -> pipeline:
     """Get the model pipeline for the chatbot."""
     # Load the model pipeline
     model_id = "meta-llama/Llama-3.2-1B-Instruct"
-    return pipeline(
-        task="text-generation",
-        model=model_id,
-        torch_dtype="bfloat16",
-        device_map="auto",
-    )
+    # Path to the local model
+    local_model_path = "/app/backend/models/Llama-3.2-1B-Instruct"
+
+    try:
+        # Try using the remote Hugging Face model
+        print(f"Attempting to load remote model: {model_id}")
+        return pipeline(
+            task="text-generation",
+            model=model_id,
+            torch_dtype="bfloat16",
+            device_map="auto",
+        )
+    except Exception as e:  # pylint: disable=C0103, W0718
+        # Log the error for debugging
+        print(f"Failed to load remote model: {e}")
+
+        # Attempt to use the local model
+        if os.path.exists(local_model_path):
+            print(f"Falling back to local model from: {local_model_path}")
+            try:
+                return pipeline(
+                    task="text-generation",
+                    model=local_model_path,
+                    torch_dtype="bfloat16",
+                    device_map="auto",
+                )
+            except Exception as ex:  # Handle any error when loading the local model
+                print(f"Error loading local model: {ex}")
+                raise RuntimeError(
+                    f"Failed to load the local model. Ensure the model exists at {local_model_path} and is valid."
+                ) from ex
+        else:
+            # Raise an error if the local model is not found, chaining the original remote loading error
+            raise RuntimeError(
+                f"Failed to load both remote and local models. Ensure the local model exists at {local_model_path}."
+            ) from e
 
 
 # Chat memory storage for all users

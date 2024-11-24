@@ -12,14 +12,17 @@ RUN apt-get update && apt-get install -y \
     ffmpeg \
     && rm -rf /var/lib/apt/lists/*
 
+# Copy the llama model into the container at /app/backend/models
+COPY ./models /app/backend/models
+
 # Copy the requirements file into the container at /app
 COPY ./requirements.txt /app/backend
 
-# Copy the current directory contents into the container at /app
-COPY ./src /app/backend/src
-
 # Install Python dependencies
 RUN pip install --no-cache-dir -r requirements.txt
+
+# Copy the current directory contents into the container at /app
+COPY ./src /app/backend/src
 
 # Expose the port that FastAPI runs on
 EXPOSE 8000
@@ -31,5 +34,4 @@ ENV PYTHONPATH=/app/backend/src
 CMD ["uvicorn", "app.main:create_app", "--factory", "--host", "0.0.0.0", "--port", "8000"]
 
 # To run the container, use the following command:
-# docker run -p 8000:8000 backend -e HUGGINGFACE_TOKEN = 'your_token_here' backend
-# docker run -e HUGGINGFACE_TOKEN='your_token_here' your-backend-image-name
+# docker run -p 8000:8000 --name AI-Voice-Assistent backend
