@@ -37,3 +37,9 @@ test = ["pytest", "pytest-cov"]
 release = ["build", "twine"]
 static-code-qa = ["pre-commit"]
 dev = ["test[test,release,static-code-qa]"]
+
+[pytest]
+testpaths = "backend/tests"
+python_files = "test_*.py"
+python_classes = "Test*"
+python_functions = "test_*"

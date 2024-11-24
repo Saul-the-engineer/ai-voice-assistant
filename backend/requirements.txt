@@ -1,0 +1,12 @@
+accelerate>=0.26.0,<1.2.0
+fastapi>=0.115.5
+gTTS>=2.5.4
+numpy>=1.26.4
+openai-whisper>=20240930
+pydantic>=2.10.1
+python-dotenv>=1.0.1
+python-multipart>=0.0.17
+torch>=2.5.1
+transformers>=4.46.3
+uvicorn>=0.32.1
+xformer>=1.0.1

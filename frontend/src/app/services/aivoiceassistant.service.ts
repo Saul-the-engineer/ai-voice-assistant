@@ -1,10 +1,11 @@
 // This service is responsible for handling the user voice data and sending it to the backend for processing.
-export const getAIReplyOutput = async (userAudioData: Blob) => {
+export const getAIReplyOutput = async (userAudioData: Blob, userId:string) => {
     const audioFile = new File([userAudioData], "userVoiceInput", {
       type: "audio/mpeg",
     });
     const formData = new FormData();
     formData.append("file", audioFile);
+    formData.append("userId",userId)
 
     const requestOptions = {
       method: "POST",
