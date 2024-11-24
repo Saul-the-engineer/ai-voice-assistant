@@ -1,13 +1,13 @@
-"""Example pytest fixture."""
+"""Fixture for the main app."""
 
-from uuid import uuid4
-
-import pytest
-from tests.consts import PROJECT_DIR
+from app.main import create_app
+from fastapi.testclient import TestClient
 
 
-@pytest.fixture(scope="session")
-def test_session_id() -> str:
-    """Demonstrate how pytest fixtures are used."""
-    test_session_id = str(PROJECT_DIR.name) + str(uuid4())[:6]
-    return test_session_id
+def test_status_check():
+    app = create_app()
+    client = TestClient(app)
+
+    response = client.get("/")
+    assert response.status_code == 200
+    assert response.json() == {"status": "running", "version": "1.0.0", "uptime": "API is up and running smoothly."}
