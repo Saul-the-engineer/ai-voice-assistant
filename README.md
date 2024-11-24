@@ -103,6 +103,11 @@ The AI Voice Assistant is built using a modular architecture that allows for eas
 ## Setup Instructions (Recommended)
 Follow these steps to set up the environment and get the project running on your machine.
 
+### Clone this repository
+```bash
+git clone git@github.com:Saul-the-engineer/ai-voice-assistant.git
+```
+
 ### Install git-lfs (Git Large File System)
 
 Git Large File Storage (LFS) is used to manage large files, such as model weights, which are essential for running this application. Execute the following commands in your terminal:
