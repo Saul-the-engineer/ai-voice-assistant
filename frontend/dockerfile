@@ -1,0 +1,31 @@
+# cd into the frontend directory
+# Instructions for building the frontend image
+# docker build -t frontend .
+# Use the official Node.js environment as a parent image
+FROM node:16-alpine
+
+# Set the working directory in the container
+WORKDIR /app/frontend
+
+# Since we are inside ./frontend, all paths in COPY commands are relative to this location
+# Copy the package.json and yarn.lock (or npm lock file) into the working directory
+COPY package.json yarn.lock ./
+
+# Install dependencies using yarn
+RUN yarn install --frozen-lockfile
+
+# Copy the rest of your frontend application
+# Since the context is ./frontend, we copy everything from the current directory into the Docker WORKDIR
+COPY . ./
+
+# Build the application for production
+RUN yarn build
+
+# Expose the port the server will run on
+EXPOSE 3000
+
+# Command to start the app using yarn
+CMD ["yarn", "start"]
+
+# To run the frontend container, use the following command
+# docker run -p 3000:3000 --name AI-Voice-Assistent frontend
