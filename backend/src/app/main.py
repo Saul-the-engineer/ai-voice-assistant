@@ -9,7 +9,6 @@ from app.routers import (
     audio_routes,
     text_routes,
 )
-from app.utils.chat_utils.chat_utils import Chatbot
 from app.utils.file_utils import (
     TMP_FOLDER_NAME,
     create_secure_tmp_folder,

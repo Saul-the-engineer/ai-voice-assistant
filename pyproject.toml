@@ -13,6 +13,10 @@ exclude = "venv"
 docstring-convention = "all"
 ignore = ["D107", "D212", "E501", "W503", "W605", "D203", "D100"]
 exclude = "venv"
+per-file-ignores = [
+    "*/tests/*.py:D103",
+    "*/tests/**/*.py:D103"
+]
 max-line-length = 119
 
 # radon
@@ -40,7 +44,7 @@ disable = [
 select = ["E", "F", "B", "ERA"]
 
 # Never enforce `E501` (line length violations).
-ignore = ["E501", "F401"]
+ignore = ["E501", "F401", "B008"]
 
 # Avoid trying to fix flake8-bugbear (`B`) violations.
 unfixable = ["B"]

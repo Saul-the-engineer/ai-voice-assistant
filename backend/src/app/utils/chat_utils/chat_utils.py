@@ -1,5 +1,7 @@
 """Chat utils module containing the chatbot class and model pipeline."""
 
+from typing import Optional
+
 from app.schemas.chat_schemas import TextInput
 from transformers import pipeline
 
@@ -17,6 +19,22 @@ def get_pipeline() -> pipeline:
     )
 
 
+# Chat memory storage for all users
+chat_memory_per_user: dict = {}
+
+
+def get_user_chat_memory(
+    user_id: str,
+    system_message: str = "I'm a helpful assistent",
+) -> list:
+    """Get the chat memory for the given user ID."""
+    if user_id in chat_memory_per_user:
+        return chat_memory_per_user[user_id]
+    new_memory: list = [{"role": "system", "content": system_message}]
+    chat_memory_per_user[user_id] = new_memory
+    return new_memory
+
+
 # Create the chatbot class
 class Chatbot:
     """A chatbot that generates responses based on a given model pipeline."""
@@ -24,12 +42,14 @@ class Chatbot:
     def __init__(
         self,
         model_pipeline: pipeline = None,
+        user_id: Optional[str] = None,
         system_message: str = "You are a pirate chatbot who always responds in pirate speak!",
         max_history_tokens: int = 1024,
     ) -> None:
         # Use provided pipeline or initialize a default one
         self.pipe = model_pipeline or get_pipeline()
-        self.messages = [{"role": "system", "content": system_message}]
+        self.user_id = user_id or "default"
+        self.messages = get_user_chat_memory(self.user_id, system_message)
         self.max_history_tokens = max_history_tokens
 
     def generate_response(self, user_message: TextInput, max_new_tokens: int = 512) -> str:

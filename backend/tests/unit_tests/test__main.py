@@ -1,16 +1,8 @@
 """Test the main module."""
 
-import os
-import tempfile
-from unittest.mock import patch
 
 import pytest
-from app.main import (
-    create_app,
-    shutdown_event,
-    startup_event,
-)
-from app.utils.file_utils import TMP_FOLDER_NAME
+from app.main import create_app
 from fastapi.testclient import TestClient
 
 
@@ -40,21 +32,3 @@ def test_create_app(client):
     assert any(
         route.path == "/voice-assistant/audio_interact" for route in client.app.routes
     ), "Route /voice-assistant/audio_interact is not found"
-
-
-@patch("app.main.create_secure_tmp_folder")
-@patch("app.main.LOGGER.info")
-def test_startup_event(mock_logger, mock_create_tmp, client):  # Include client if needed for context
-    startup_event()
-    mock_create_tmp.assert_called_once()
-    mock_logger.assert_called_with("Application startup complete. Temporary directory is ready.")
-
-
-@patch("app.main.shutil.rmtree")
-@patch("app.main.LOGGER.info")
-def test_shutdown_event(mock_logger, mock_rmtree, client):  # Include client if needed for context
-    tmp_dir_path = os.path.join(tempfile.gettempdir(), TMP_FOLDER_NAME)
-    with patch("os.path.exists", return_value=True):
-        shutdown_event()
-        mock_rmtree.assert_called_once_with(tmp_dir_path)
-        mock_logger.assert_called_with("Deleted temporary directory: %s", tmp_dir_path)

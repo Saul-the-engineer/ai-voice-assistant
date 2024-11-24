@@ -11,6 +11,7 @@ from app.services.text_to_speech_services import handle_text_to_speech
 from app.utils.chat_utils.chat_utils import Chatbot
 from fastapi import (
     APIRouter,
+    Form,
     HTTPException,
     UploadFile,
 )
@@ -34,9 +35,10 @@ LOGGER.info("Speech-to-Text model loaded successfully.")
 
 
 @router.post("/audio_interact")
-async def handle_receive_audio_data(file: UploadFile):
+async def handle_receive_audio_data(file: UploadFile, userId: str = Form(...)):  # pylint: disable=C0103
     """Endpoint to interact with the chatbot."""
     LOGGER.info("Received file data: %s", file)
+    chatbot.user_id = userId
     try:
         LOGGER.info("Transcribing audio...")
         file_data = await file.read()  # Read the file data as bytes
