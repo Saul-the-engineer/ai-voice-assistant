@@ -16,16 +16,16 @@ keywords = ["one", "two"]
 license = { text = "MIT" }
 classifiers = ["Programming Language :: Python :: 3"]
 dependencies = [
-    'importlib-metadata; python_version<"3.8"', 
-    "numpy", 
-    "torch", 
+    'importlib-metadata; python_version<"3.8"',
+    "numpy",
+    "torch",
     "transformers",
     "xformer",
     "accelerate >= 0.26.0",
     "openai-whisper",
     "gTTS", # Google Text-to-Speech
     "python-multipart", # for file uploads
-    "uvicorn", 
+    "uvicorn",
     "fastapi",
     "pydantic",
     "python-dotenv",
@@ -37,4 +37,3 @@ test = ["pytest", "pytest-cov"]
 release = ["build", "twine"]
 static-code-qa = ["pre-commit"]
 dev = ["test[test,release,static-code-qa]"]
-

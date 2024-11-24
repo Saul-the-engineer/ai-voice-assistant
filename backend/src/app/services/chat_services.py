@@ -16,9 +16,9 @@ LOGGER = logging.getLogger("ChatService.service")
 def get_response(user_message: TextInput, chatbot: Chatbot) -> TextOutput:
     """Generate a response to a user message."""
     try:
-        LOGGER.debug(f"Received user message: {user_message.text}")
+        LOGGER.debug("Received user message: %s", user_message.text)
         response_text = chatbot.generate_response(user_message)
         return TextOutput(text=response_text)
-    except RuntimeError as e:
-        LOGGER.error(f"Failed to generate response: {str(e)}")
+    except RuntimeError as e:  # pylint: disable=C0103
+        LOGGER.error("Failed to generate response: %s", str(e))
         return TextOutput(text="Sorry, I'm having trouble generating a response right now.")

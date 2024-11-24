@@ -1,12 +1,10 @@
-"""This module contains the FastAPI router for the chat services in the API."""
+# pylint: disable=R0801
+"""FastAPI router for the chat services in the API."""
 
 import logging
 
 import whisper
-from app.schemas.chat_schemas import (
-    TextInput,
-    TextOutput,
-)
+from app.schemas.chat_schemas import TextInput
 from app.services.chat_services import get_response
 from app.services.speech_to_text_services import handle_audio_from_user
 from app.services.text_to_speech_services import handle_text_to_speech
@@ -38,22 +36,22 @@ LOGGER.info("Speech-to-Text model loaded successfully.")
 @router.post("/audio_interact")
 async def handle_receive_audio_data(file: UploadFile):
     """Endpoint to interact with the chatbot."""
-    LOGGER.info(f"Received file data: {file}")
-    LOGGER.info("Transcribing audio...")
+    LOGGER.info("Received file data: %s", file)
     try:
+        LOGGER.info("Transcribing audio...")
         file_data = await file.read()  # Read the file data as bytes
         query = await handle_audio_from_user(
             model=whisper_model,
             file=file_data,
         )
-        LOGGER.info(f"Transcribed audio successfully: {query}")
+        LOGGER.info("Transcribed audio successfully: %s", query)
 
         # Generate the chatbot response
         response = get_response(
             user_message=TextInput(text=query),
             chatbot=chatbot,
         )
-        LOGGER.info(f"Generated response: {response.text}")
+        LOGGER.info("Generated response: %s", response.text)
 
         # Convert the response to audio
         LOGGER.info("Converting response to audio...")
@@ -67,11 +65,10 @@ async def handle_receive_audio_data(file: UploadFile):
             status_code=200,
         )
 
-    except ValueError as e:
-        LOGGER.error(f"Validation error: {str(e)}")
-        raise HTTPException(status_code=400, detail="Invalid input data.")
+    except ValueError as e:  # pylint: disable=C0103
+        LOGGER.error("Validation error: %s", str(e))
+        raise HTTPException(status_code=400, detail="Invalid input data.") from e
 
-    except Exception as e:
-        LOGGER.error(f"Internal server error: {str(e)}")
-        raise HTTPException(status_code=500, detail="An internal error occurred. Please try again.")
-        raise HTTPException(status_code=500, detail="An internal error occurred. Please try again.")
+    except Exception as e:  # pylint: disable=C0103
+        LOGGER.error("Internal server error: %s", str(e))
+        raise HTTPException(status_code=500, detail="An internal error occurred. Please try again.") from e

@@ -1,4 +1,4 @@
-"""This module converts text to speech using the Google Text-to-Speech API."""
+"""Convert text-to-speech using the Google Text-to-Speech API."""
 
 from app.utils.file_utils import create_unique_tmp_file
 from gtts import gTTS

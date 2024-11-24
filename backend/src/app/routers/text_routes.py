@@ -1,4 +1,5 @@
-"""This module contains the FastAPI router for the chat services in the API."""
+# pylint: disable=R0801
+"""FastAPI router for the chat services in the API."""
 
 import logging
 
@@ -44,20 +45,20 @@ LOGGER.info("Chatbot initialized successfully.")
 )
 async def chat_endpoint(user_input: TextInput) -> JSONResponse:
     """Endpoint to interact with the chatbot."""
-    LOGGER.info(f"Received input for chat: {user_input.text}")
+    LOGGER.info("Received input for chat: %s", user_input.text)
 
     try:
         # Generate the chatbot response
         response = get_response(user_input, chatbot)
-        LOGGER.info(f"Generated response: {response.text}")
+        LOGGER.info("Generated response: %s", response.text)
 
         # Return the response wrapped in a JSONResponse
         return JSONResponse(content=response.model_dump(), status_code=200)
 
-    except ValueError as e:
-        LOGGER.error(f"Validation error: {str(e)}")
-        raise HTTPException(status_code=400, detail="Invalid input data.")
+    except ValueError as e:  # pylint: disable=C0103
+        LOGGER.error("Validation error: %s", str(e))
+        raise HTTPException(status_code=400, detail="Invalid input data.") from e
 
-    except Exception as e:
-        LOGGER.error(f"Internal server error: {str(e)}")
-        raise HTTPException(status_code=500, detail="An internal error occurred. Please try again.")
+    except Exception as e:  # pylint: disable=C0103
+        LOGGER.error("Internal server error: %s", str(e))
+        raise HTTPException(status_code=500, detail="An internal error occurred. Please try again.") from e

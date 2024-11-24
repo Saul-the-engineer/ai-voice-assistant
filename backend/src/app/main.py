@@ -1,3 +1,5 @@
+"""Main module for the FastAPI application."""
+
 import logging
 import os
 import shutil
@@ -16,8 +18,8 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 # Centralized logging configuration
-log_level = logging.DEBUG if os.getenv("ENV") == "development" else logging.INFO
-logging.basicConfig(format="%(levelname)s - %(asctime)s - %(filename)s - %(message)s", level=log_level)
+LOG_LEVEL = logging.DEBUG if os.getenv("ENV") == "development" else logging.INFO
+logging.basicConfig(format="%(levelname)s - %(asctime)s - %(filename)s - %(message)s", level=LOG_LEVEL)
 LOGGER = logging.getLogger("ChatBot Service")
 
 # Setup the application configuration
@@ -35,12 +37,13 @@ def shutdown_event():
     tmp_dir_path = os.path.join(tempfile.gettempdir(), TMP_FOLDER_NAME)
     if os.path.exists(tmp_dir_path):
         shutil.rmtree(tmp_dir_path)
-        LOGGER.info(f"Deleted temporary directory: {tmp_dir_path}")
+        LOGGER.info("Deleted temporary directory: %s", tmp_dir_path)
 
 
 def create_app() -> FastAPI:
     """
     Application factory for FastAPI.
+
     This function creates and returns a new FastAPI application instance.
     """
     app = FastAPI()
@@ -80,9 +83,6 @@ def create_app() -> FastAPI:
 
 if __name__ == "__main__":
     import uvicorn
-
-    app = create_app()  # Create a FastAPI instance using the factory function
-    uvicorn.run(app, host="0.0.0.0", port=8000)
 
     app = create_app()  # Create a FastAPI instance using the factory function
     uvicorn.run(app, host="0.0.0.0", port=8000)
